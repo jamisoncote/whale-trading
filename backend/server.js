@@ -4,17 +4,21 @@ var express = require("express"),
   bodyParser = require("body-parser"),
   axios = require('axios');
 
+// import db
+const db = require('./db_connection');
+// import helper methods (jwt, bcrypt)
+const helper = require('./helper');
+
 // extracting json from the client side request
 app.use(bodyParser.json());
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-// import db
-const db = require('./db_connection');
-
 app.get('/', function(req, res) {
   console.log('Home Page Refreshed');
-  res.send('hello world');
+  res.json({
+    message: "hello world"
+  });
 });
 
 app.listen(process.env.PORT || 3000, function() {
