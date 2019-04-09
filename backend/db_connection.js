@@ -1,5 +1,5 @@
 var pg = require('pg');
-var conString = "postgres://postgres:5432@localhost/postgres";
+var conString = "postgres://huntercote:@localhost:5432/postgres";
 
 var client = new pg.Client(conString);
 
