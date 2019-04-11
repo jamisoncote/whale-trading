@@ -7,7 +7,7 @@ const helper = {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(8))
   },
 
-  comparePassword(hashPassword, password) {
+  comparePassword(password, hashPassword) {
     return bcrypt.compareSync(password, hashPassword);
   },
 
@@ -33,7 +33,7 @@ const helper = {
    */
   generateToken(id) {
     const token = jwt.sign({
-      userId: id
+      id
     },
       'secretkey', { expiresIn: '1d' }
     );

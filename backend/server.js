@@ -67,7 +67,8 @@ app.post('/signup', function(req, res) {
 
 // login
 app.post('/login', function (req, res) {
-
+  console.log(req.body);
+  
   // ensure both fields are filled out
   if (!req.body.email || !req.body.password) {
     return res.sendStatus(403).send({'message': 'username or password not filled out'});
@@ -77,15 +78,21 @@ app.post('/login', function (req, res) {
     return res.sendStatus(403).send({'message': 'invalid email'});
   }
   const text = 'SELECT * FROM users WHERE email = $1';
-  const rows = db.query(text, [req.body.email]);
-  if (!rows[0]) {
-    return res.status(403).send({'message': 'username or password is invalid'});
-  }
-  if(!helper.comparePassword(rows[0].password, req.body.password)) {
-    return res.status(403).send({ 'message': 'password is invalid' });
-  }
-  const token = helper.generateToken(rows[0].id);
-  return res.status(200).send({ token });
+  const rows = db.client.query(text, [req.body.email], (err, result) => {
+    if (!result.rows[0].email) {
+      return res.status(403).send({'message': 'username or password is invalid'});
+    }
+        
+    if(!helper.comparePassword(req.body.password, result.rows[0].password)) {
+      return res.status(403).send({ 'message': 'password is invalid' });
+    }
+    const token = helper.generateToken(result.rows[0].id);
+    return res.json({
+      "message": "user logged in",
+      user: result.rows[0],
+      token
+    });
+  });
 });
 
 // delete user
