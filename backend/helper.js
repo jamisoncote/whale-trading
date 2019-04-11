@@ -1,5 +1,5 @@
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 const helper = {
 
@@ -35,10 +35,8 @@ const helper = {
     const token = jwt.sign({
       userId: id
     },
-      process.env.SECRET, { expiresIn: '1d' }
+      'secretkey', { expiresIn: '1d' }
     );
     return token;
   }
 }
-
-export default helper;
