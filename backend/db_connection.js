@@ -9,6 +9,15 @@ const conString = `postgres://${env.username}:@localhost:5432/happyendings`;
 
 const client = new pg.Client(conString);
 
+module.exports = {client};
+
+// await client.connect();
+// var res = await client.query('SELECT NOW() AS "theTime"');
+// res.rows.forEach(row=>{
+//     console.log(row);
+// });
+// await client.end();
+
 client.connect(function(err) {
     if(err) {
        return console.error('could not connect to postgres', err);
@@ -18,8 +27,7 @@ client.connect(function(err) {
         return console.error('error running query', err);
       }
       console.log(`Postgres is connected`);
-      client.end();
-    });
+      });
 });    
 
 /**

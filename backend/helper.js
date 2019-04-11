@@ -39,4 +39,6 @@ const helper = {
     );
     return token;
   }
-}
+};
+
+module.exports = helper;

@@ -2,7 +2,7 @@ var express = require("express"),
   app = express(),
   cors = require("cors"),
   bodyParser = require("body-parser"),
-  axios = require('axios');
+  uuidv4 = require('uuid/v4');
 
 // import db
 const db = require('./db_connection');
@@ -10,9 +10,11 @@ const db = require('./db_connection');
 const helper = require('./helper');
 
 // to extract json from the client side post request
+app.use(bodyParser.urlencoded({
+  extended: true
+})); // need this otherwise will throw an error (not including this is depracated)
 app.use(bodyParser.json());
 app.use(cors());
-app.use(bodyParser.urlencoded({ extended: false }));
 
 app.get('/', function(req, res) {
   console.log('Home Page Refreshed');
@@ -23,32 +25,44 @@ app.get('/', function(req, res) {
 
 // register
 app.post('/signup', function(req, res) {
-
+  console.log(req.body);
+  
   // ensure both fields are filled out
   if (!req.body.email || !req.body.password) {
-    return res.sendStatus(403).send({'message': 'username or password not filled out'});
+    return res.json({'message': 'username or password not filled out'});
   }
   // ensure email is in a valid format i.e. john@gmail.com
   if (!helper.isValidEmail(req.body.email)) {
-    return res.sendStatus(403).send({'message': 'invalid email'});
+    return res.json({'message': 'invalid email'});
   }
   const hashPassword = helper.hashPassword(req.body.password);
 
   const createQuery = `INSERT INTO
-    users(id, email, password, created_date, modified_date)
-    VALUES($1, $2, $3, $4, $5)
+    users(email, password, created_on)
+    VALUES($1, $2, $3)
     returning *`;
+
+  const today = new Date();
   const values = [
     // generate unqiue universal identifier (user id)
-    uuidv4(),
+    // nextval('id'),
     req.body.email,
     hashPassword,
-    moment(new Date()),
-    moment(new Date())
+    today
   ];
-  const rows = db.query(createQuery, values);
-  const token = helper.generateToken(rows[0].id);
-  return res.status(201).send({ token });
+  console.log(values);
+
+  const rows = db.client.query(createQuery, values, (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {      
+      const token = helper.generateToken(result.rows[0].id);
+      return res.json({"message": "new user registered!",
+      "result": result.rows[0],
+      token
+      });
+    }
+  });
 });
 
 // login
