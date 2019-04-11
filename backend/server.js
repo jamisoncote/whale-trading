@@ -1,8 +1,7 @@
 var express = require("express"),
   app = express(),
   cors = require("cors"),
-  bodyParser = require("body-parser"),
-  uuidv4 = require('uuid/v4');
+  bodyParser = require("body-parser");
 
 // import db
 const db = require('./db_connection');
@@ -16,7 +15,7 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 app.use(cors());
 
-app.get('/', function(req, res) {
+app.get('/', (req, res) => {
   console.log('Home Page Refreshed');
   res.json({
     message: "hello world"
@@ -24,7 +23,7 @@ app.get('/', function(req, res) {
 });
 
 // register
-app.post('/signup', function(req, res) {
+app.post('/signup', (req, res) => {
   console.log(req.body);
   
   // ensure both fields are filled out
@@ -65,8 +64,19 @@ app.post('/signup', function(req, res) {
   });
 });
 
+// get user
+app.get('/user/:id', (req, res) => {
+  const userId = req.params.id;
+  const text = 'SELECT * FROM users WHERE id = $1';
+  const rows = db.client.query(text, [userId], (err, result) => {
+    return res.json({
+      user: result.rows[0]
+    });
+  });
+});
+
 // login
-app.post('/login', function (req, res) {
+app.post('/login', (req, res) => {
   console.log(req.body);
   
   // ensure both fields are filled out

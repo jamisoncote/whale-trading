@@ -11,13 +11,6 @@ const client = new pg.Client(conString);
 
 module.exports = {client};
 
-// await client.connect();
-// var res = await client.query('SELECT NOW() AS "theTime"');
-// res.rows.forEach(row=>{
-//     console.log(row);
-// });
-// await client.end();
-
 client.connect(function(err) {
     if(err) {
        return console.error('could not connect to postgres', err);
@@ -32,9 +25,10 @@ client.connect(function(err) {
 
 /**
  * ==== HELPFUL POSTGRES COMMANDS ====
- * $ psql database_name => enter postgres console
- * # \dt => see tables in database
- * # \l => see all databases (and owner of db)
+ * $ psql database_name => to enter postgres console
+ * # \dt => to see tables in database
+ * # \l => to see all databases (and owner of db)
+ * # SELECT * FROM users; => to see all active users
  * 
  */
 
