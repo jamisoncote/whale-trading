@@ -3,16 +3,16 @@ var express = require("express"),
   cors = require("cors"),
   bodyParser = require("body-parser");
 
-// import db
+// import database connection
 const db = require('./db_connection');
 // import helper methods (jwt, bcrypt)
 const helper = require('./helper');
 
 // to extract json from the client side post request
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true
 })); // need this otherwise will throw an error (not including this is depracated)
-app.use(bodyParser.json());
 app.use(cors());
 
 // =======HOME PAGE==========
@@ -24,7 +24,7 @@ app.get('/', (req, res) => {
 });
 
 // =======REGISTER==========
-app.post('/signup', (req, res) => {
+app.post('/api/signup', (req, res) => {
   console.log(req.body);
   
   // ensure both fields are filled out
@@ -66,7 +66,7 @@ app.post('/signup', (req, res) => {
 });
 
 // =======GET USER==========
-app.get('/user/:id', (req, res) => {
+app.get('/api/user/:id', (req, res) => {
   const userId = req.params.id;
   const text = 'SELECT * FROM users WHERE id = $1';
   const rows = db.client.query(text, [userId], (err, result) => {
@@ -77,7 +77,7 @@ app.get('/user/:id', (req, res) => {
 });
 
 // =======LOGIN==========
-app.post('/login', (req, res) => {
+app.post('/api/login', (req, res) => {
   console.log(req.body);
   
   // ensure both fields are filled out
@@ -102,12 +102,12 @@ app.post('/login', (req, res) => {
       "message": "user logged in",
       user: result.rows[0],
       token
-    });
+    }); 
   });
 });
 
 // =======UPDATE USER==========
-app.put('/user/:id', (req, res) => {
+app.put('/api/user/:id', (req, res) => {
   const userId = req.params.id;
 
   // ensure email is in a valid format i.e. john@gmail.com
@@ -126,7 +126,7 @@ app.put('/user/:id', (req, res) => {
 });
 
 // =======DELETE USER==========
-app.delete('/user/:id', function(req, res) {
+app.delete('/api/user/:id', function(req, res) {
   const userId = req.params.id; // for postman testing (req.user.id when front end is available)
   const deleteQuery = 'DELETE FROM users WHERE id=$1 returning *';
   const rows = db.client.query(deleteQuery, [userId], (err, result) => {
@@ -147,3 +147,17 @@ app.delete('/user/:id', function(req, res) {
 app.listen(process.env.PORT || 3000, function() {
   console.log("listening on port 3000...");
 });
+
+// general route ensuring authorization by checking jwt
+// app.post('/api/posts', helper.verifyToken, (req, res) => {
+//   jwt.verify(req.token, 'secretkey', (err, auth) => {
+//     if (err) {
+//       res.sendStatus(403);
+//     } else {
+//       res.json({
+//         message: 'Post created',
+//         user: auth
+//       })
+//     }
+//   })
+// });
