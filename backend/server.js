@@ -105,6 +105,24 @@ app.post('/login', (req, res) => {
   });
 });
 
+// update user
+app.put('/user/:id', (req, res) => {
+  const userId = req.params.id;
+  // ensure email is in a valid format i.e. john@gmail.com
+  if (!helper.isValidEmail(req.body.email)) {
+    return res.sendStatus(403).send({'message': 'invalid email'});
+  }
+  const text = 'UPDATE users SET email = $1 WHERE id = $2';
+  const rows = db.client.query(text, [req.body.email, userId], (err, result) => {
+    if (err) {
+      console.log(err);
+      return res.status(403).send({'message': 'error updating user'});
+    } else {
+      return res.json({"message": "user successfully updated"})
+    }
+  });
+});
+
 // delete user
 app.delete('/user/:id', function(req, res) {
   const userId = req.params.id; // for postman testing (req.user.id when front end is available)
