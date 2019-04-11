@@ -97,7 +97,7 @@ app.post('/login', function (req, res) {
 
 // delete user
 app.delete('/user/:id', function(req, res) {
-  const userId = req.params.id;
+  const userId = req.params.id; // for postman testing (req.user.id when front end is available)
   const deleteQuery = 'DELETE FROM users WHERE id=$1 returning *';
   const rows = db.client.query(deleteQuery, [userId], (err, result) => {
     if(err) {
@@ -109,7 +109,7 @@ app.delete('/user/:id', function(req, res) {
           'message': 'deleted',
           'user': result.rows[0]
         });
-    }
+      }
   });
 });
 
