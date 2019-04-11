@@ -15,6 +15,7 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 app.use(cors());
 
+// =======HOME PAGE==========
 app.get('/', (req, res) => {
   console.log('Home Page Refreshed');
   res.json({
@@ -22,7 +23,7 @@ app.get('/', (req, res) => {
   });
 });
 
-// register
+// =======REGISTER==========
 app.post('/signup', (req, res) => {
   console.log(req.body);
   
@@ -64,7 +65,7 @@ app.post('/signup', (req, res) => {
   });
 });
 
-// get user
+// =======GET USER==========
 app.get('/user/:id', (req, res) => {
   const userId = req.params.id;
   const text = 'SELECT * FROM users WHERE id = $1';
@@ -75,7 +76,7 @@ app.get('/user/:id', (req, res) => {
   });
 });
 
-// login
+// =======LOGIN==========
 app.post('/login', (req, res) => {
   console.log(req.body);
   
@@ -105,9 +106,10 @@ app.post('/login', (req, res) => {
   });
 });
 
-// update user
+// =======UPDATE USER==========
 app.put('/user/:id', (req, res) => {
   const userId = req.params.id;
+
   // ensure email is in a valid format i.e. john@gmail.com
   if (!helper.isValidEmail(req.body.email)) {
     return res.sendStatus(403).send({'message': 'invalid email'});
@@ -123,7 +125,7 @@ app.put('/user/:id', (req, res) => {
   });
 });
 
-// delete user
+// =======DELETE USER==========
 app.delete('/user/:id', function(req, res) {
   const userId = req.params.id; // for postman testing (req.user.id when front end is available)
   const deleteQuery = 'DELETE FROM users WHERE id=$1 returning *';
@@ -141,6 +143,7 @@ app.delete('/user/:id', function(req, res) {
   });
 });
 
+// =======SET SERVER==========
 app.listen(process.env.PORT || 3000, function() {
   console.log("listening on port 3000...");
 });
