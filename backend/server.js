@@ -82,7 +82,7 @@ app.post('/login', function (req, res) {
     if (!result.rows[0].email) {
       return res.status(403).send({'message': 'username or password is invalid'});
     }
-        
+
     if(!helper.comparePassword(req.body.password, result.rows[0].password)) {
       return res.status(403).send({ 'message': 'password is invalid' });
     }
@@ -97,12 +97,20 @@ app.post('/login', function (req, res) {
 
 // delete user
 app.delete('/user/:id', function(req, res) {
+  const userId = req.params.id;
   const deleteQuery = 'DELETE FROM users WHERE id=$1 returning *';
-  const rows = db.query(deleteQuery, [req.user.id]);
-  if(!rows[0]) {
-    return res.status(404).send({'message': 'user not found'});
-  }
-  return res.status(204).send({ 'message': 'deleted' });
+  const rows = db.client.query(deleteQuery, [userId], (err, result) => {
+    if(err) {
+      console.log(err);
+      return res.status(404).send({'message': 'user not found'});
+    } else {
+      console.log(result);
+        return res.status(204).send({
+          'message': 'deleted',
+          'user': result.rows[0]
+        });
+    }
+  });
 });
 
 app.listen(process.env.PORT || 3000, function() {
