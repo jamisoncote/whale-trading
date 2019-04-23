@@ -1,0 +1,46 @@
+<template>
+    <div>
+        <h3>Login</h3>
+        <form action="">
+            <input type="text" name="email" id="" placeholder="Email">
+            <input type="password" name="password" id="" placeholder="Password">
+            <input type="submit" name="submit" id="submit">
+        </form>
+        <p>Don't have an account? Register <a href="/register">here</a></p>
+    </div>
+</template>
+
+<script>
+export default {
+    name: "Login"
+}
+</script>
+
+<style scoped>
+
+    p {
+        font-size: .5em;
+    }
+
+    input {
+        width: 20em;
+        height: 2.2em;
+        display: block;
+        margin: 1em auto;
+    }
+
+    input[type=submit] {
+        /* width is hard coded - need a better solution */
+        width: 221px;
+        padding: 0px;
+        background: #42b883;
+        color: #FFF;
+        font-size: .55em;
+        border-radius: .2em;
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+
+</style>
