@@ -1,21 +1,19 @@
 <template>
     <div>
-        <h3>Login</h3>
-        <form action="/api/login">
+        <h3>Register</h3>
+        <form action="">
             <input type="text" name="email" id="" placeholder="Email">
             <input type="password" name="password" id="" placeholder="Password">
             <input type="submit" name="submit" id="submit">
         </form>
-        <p>Don't have an account? Register <router-link to="/register">here</router-link></p>
-        <!-- the line below adds a second App component to the page -->
-        <!-- but it also loads the register component at /register -->
+        <p>Already have an account? Login <router-link to="/login">here</router-link></p>
         <router-view></router-view>
     </div>
 </template>
 
 <script>
 export default {
-    name: "Login"
+    name: "Register"
 }
 </script>
 
