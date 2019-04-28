@@ -19,6 +19,7 @@ const router = new VueRouter({
 //   template: '<App />'
 // })
 
+// just render the navbar for every page rather than 'App
 new Vue({
   router,
   render: h => h(App)

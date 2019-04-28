@@ -6,7 +6,7 @@
             <input type="password" name="password" id="" placeholder="Password">
             <input type="submit" name="submit" id="submit">
         </form>
-        <p>Don't have an account? Register <router-link to="/register">here</router-link></p>
+        <p>Don't have an account? Register <router-link to="/register" class="auth-link">here</router-link></p>
         <!-- the line below adds a second App component to the page -->
         <!-- but it also loads the register component at /register -->
         <router-view></router-view>
@@ -44,6 +44,11 @@ export default {
 
     * {
         box-sizing: border-box;
+    }
+
+    .auth-link {
+        text-decoration: none;
+        color: #42b883;
     }
 
 </style>

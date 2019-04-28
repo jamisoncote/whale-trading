@@ -6,7 +6,7 @@
             <input type="password" name="password" id="" placeholder="Password">
             <input type="submit" name="submit" id="submit">
         </form>
-        <p>Already have an account? Login <router-link to="/login">here</router-link></p>
+        <p>Already have an account? Login <router-link to="/login" class="auth-link">here</router-link></p>
         <router-view></router-view>
     </div>
 </template>
@@ -42,6 +42,11 @@ export default {
 
     * {
         box-sizing: border-box;
+    }
+
+    .auth-link {
+        text-decoration: none;
+        color: #42b883;
     }
 
 </style>
