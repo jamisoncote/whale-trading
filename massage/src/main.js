@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import App from './App.vue'
+import Nav from './components/Nav.vue'
 import routes from './components/routes'
 import VueRouter from 'vue-router'
 
@@ -12,16 +12,19 @@ const router = new VueRouter({
   routes
 })
 
+// router.beforeEach((to, from, next) => {
+//   //
+// })
+
+// just render the navbar for every page rather than 'App
+new Vue({
+  router,
+  render: h => h(Nav)
+  }).$mount('#app')
+
 // new Vue({
 //   el: '#app',
 //   router: router,
 //   components: { App },
 //   template: '<App />'
 // })
-
-// just render the navbar for every page rather than 'App
-new Vue({
-  router,
-  render: h => h(App)
-  }).$mount('#app')
-

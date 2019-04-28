@@ -52,7 +52,7 @@ app.post('/api/signup', (req, res) => {
   ];
   console.log(values);
 
-  const rows = db.client.query(createQuery, values, (err, result) => {
+  db.client.query(createQuery, values, (err, result) => {
     if (err) {
       console.log(err);
     } else {      
@@ -88,8 +88,13 @@ app.post('/api/login', (req, res) => {
   if (!helper.isValidEmail(req.body.email)) {
     return res.sendStatus(403).send({'message': 'invalid email'});
   }
+
   const text = 'SELECT * FROM users WHERE email = $1';
-  const rows = db.client.query(text, [req.body.email], (err, result) => {
+  db.client.query(text, [req.body.email], (err, result) => {
+    if (err) {
+      console.log(err);
+    }
+    
     if (!result.rows[0].email) {
       return res.status(403).send({'message': 'username or password is invalid'});
     }

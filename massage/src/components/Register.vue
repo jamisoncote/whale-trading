@@ -2,8 +2,8 @@
     <div>
         <h3>Register</h3>
         <form action="">
-            <input type="text" name="email" id="" placeholder="Email">
-            <input type="password" name="password" id="" placeholder="Password">
+            <input type="text" name="email" id="email" placeholder="Email">
+            <input type="password" name="password" id="password" placeholder="Password">
             <input type="submit" name="submit" id="submit">
         </form>
         <p>Already have an account? Login <router-link to="/login" class="auth-link">here</router-link></p>
@@ -32,7 +32,7 @@ export default {
 
     input[type=submit] {
         /* width is hard coded - need a better solution */
-        width: 221px;
+        width: 220px;
         padding: 0px;
         background: #42b883;
         color: #FFF;

@@ -1,10 +1,14 @@
 <template>
-    <div>
-        <ul>
-            <li><router-link to="/login" class="nav-link">Login</router-link></li>
-            <li><router-link to="/register" class="nav-link">Register</router-link></li>
-        </ul>
-    </div>
+
+  <div id="app">
+    <ul>
+        <li><router-link to="/" class="nav-link">Home</router-link></li>
+        <li><router-link to="/login" class="nav-link">Login</router-link></li>
+        <li><router-link to="/register" class="nav-link">Register</router-link></li>
+    </ul>
+    <img alt="Vue logo" src="../assets/logo.png">
+    <router-view></router-view>
+  </div>
 </template>
 
 <script>
@@ -15,6 +19,15 @@ export default {
 
 <style scoped>
 
+    #app {
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+    /* margin-top: 60px; */
+    }
+
     div {
         top: 0;
         width: 100%;
@@ -23,7 +36,7 @@ export default {
 
     .nav-link {
         text-decoration: none;
-        color: #303030;
+        color: #42b883;
     }
 
     li {
@@ -48,7 +61,7 @@ export default {
         padding-left: 0;
         list-style-type: none;
         text-decoration: none;
-        background-color: #F0F0F0;
+        background-color: #000;
         margin-top: 0;
         /* border-bottom: 1px solid #707070; */
         height: 1.75em;
