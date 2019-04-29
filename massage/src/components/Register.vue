@@ -1,9 +1,9 @@
 <template>
     <div>
         <h3>Register</h3>
-        <form action="">
-            <input type="text" name="email" id="email" placeholder="Email">
-            <input type="password" name="password" id="password" placeholder="Password">
+        <form @submit.prevent="sendData">
+            <input type="text" v-model="input.email" name="email" id="email" placeholder="Email">
+            <input type="password" v-model="input.password" name="password" id="password" placeholder="Password">
             <input type="submit" name="submit" id="submit">
         </form>
         <p>Already have an account? Login <router-link to="/login" class="auth-link">here</router-link></p>

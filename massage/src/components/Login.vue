@@ -1,10 +1,10 @@
 <template>
     <div>
         <h3>Login</h3>
-        <form action="">
+        <form @submit.prevent="sendData">
             <input type="text" v-model="input.email" name="email" id="email" placeholder="Email">
             <input type="password" v-model="input.password" name="password" id="password" placeholder="Password">
-            <input type="submit" v-on:click="sendData()" name="submit" id="submit">
+            <input type="submit" name="submit" id="submit">
         </form>
         <p>Don't have an account? Register <router-link to="/register" class="auth-link">here</router-link></p>
         <!-- the line below adds a second App component to the page -->
@@ -50,7 +50,8 @@ export default {
         sendData() {
             axios({ method: "POST", "url": "http://localhost:3000/api/login", "data": this.input, "headers": { "content-type": "application/json" } })
             .then(result => {
-                window.localStorage.setItem('token', result.data.token);
+                localStorage.setItem('token', result.data.token);
+                localStorage.setItem('user', JSON.stringify(result.data.user));
                 this.$router.push('/')
             }, error => {
                 /* eslint-disable */
