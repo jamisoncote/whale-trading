@@ -67,6 +67,8 @@ app.post('/api/signup', (req, res) => {
 
 // =======GET USER==========
 app.get('/api/user/:id', (req, res) => {
+  console.log(req.headers);
+  
   const userId = req.params.id;
   const text = 'SELECT * FROM users WHERE id = $1';
   const rows = db.client.query(text, [userId], (err, result) => {

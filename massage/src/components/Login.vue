@@ -1,7 +1,7 @@
 <template>
     <div>
         <h3>Login</h3>
-        <form action="/api/login">
+        <form action="">
             <input type="text" v-model="input.email" name="email" id="email" placeholder="Email">
             <input type="password" v-model="input.password" name="password" id="password" placeholder="Password">
             <input type="submit" v-on:click="sendData()" name="submit" id="submit">
@@ -21,6 +21,7 @@ import axios from "axios";
 
 export default {
     name: "Login",
+    // data represents the state of this component
     data() {
         // any variables you use above must be defined here
         return {
@@ -49,10 +50,8 @@ export default {
         sendData() {
             axios({ method: "POST", "url": "http://localhost:3000/api/login", "data": this.input, "headers": { "content-type": "application/json" } })
             .then(result => {
-                /* eslint-disable */
-                console.log(result);
-                this.token = result.token;
-                this.response = result.data;
+                window.localStorage.setItem('token', result.data.token);
+                this.$router.push('/')
             }, error => {
                 /* eslint-disable */
                 console.error(error);
