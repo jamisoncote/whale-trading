@@ -5,6 +5,7 @@
         <li v-if="isLoggedIn"><router-link to="/" class="nav-link">Home</router-link></li>
         <li v-if="!isLoggedIn"><router-link to="/login" class="nav-link">Login</router-link></li>
         <li v-if="!isLoggedIn"><router-link to="/register" class="nav-link">Register</router-link></li>
+        <li v-if="isAdmin"><router-link to="/admin" class="nav-link">Admin</router-link></li>
         <li v-if="isLoggedIn"><a  class="nav-link" @click="logout">Logout</a></li>
     </ul>
     <img alt="Vue logo" src="../assets/logo.png">
@@ -18,6 +19,9 @@ export default {
     computed : {
         isLoggedIn : function(){ 
             return this.$store.getters.isLoggedIn
+        },
+        isAdmin : function(){ 
+            return this.$store.getters.isAdmin
         }
     },
     methods: {

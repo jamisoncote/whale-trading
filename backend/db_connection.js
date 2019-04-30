@@ -35,7 +35,8 @@ $ psql database_name => to enter postgres console
  id serial PRIMARY KEY,
  email TEXT UNIQUE NOT NULL,
  password TEXT NOT NULL,
- created_on TIMESTAMP NOT NULL
+ created_on TIMESTAMP NOT NULL,
+ is_admin BOOLEAN NOT NULL DEFAULT false
 );
 
  */
