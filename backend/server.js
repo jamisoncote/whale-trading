@@ -107,7 +107,7 @@ app.post('/api/login', (req, res) => {
     const token = helper.generateToken(result.rows[0].id);
     return res.json({
       "message": "user logged in",
-      user: result.rows[0],
+      is_admin: result.rows[0].is_admin,
       token
     }); 
   });

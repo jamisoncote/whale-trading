@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3>Home</h3>
+    <h3>Admin View</h3>
     <p>Protected Route</p>
     <router-view></router-view>
   </div>
@@ -8,7 +8,7 @@
 
 <script>
 export default {
-    name: "Home",
+    name: "Admin",
     data() { return {} },
 }
 </script>
@@ -16,3 +16,4 @@ export default {
 <style scoped>
 
 </style>
+
