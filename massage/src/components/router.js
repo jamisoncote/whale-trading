@@ -6,12 +6,16 @@ import Register from './Register.vue'
 
 Vue.use(Router)
 
-export default new Router({
-   routes: [
+const router = new Router({
+    mode: 'history',
+    routes: [
         { 
             path: '/', 
             name: 'Home', 
-            component: Home
+            component: Home,
+            beforeEach: (to, from, next) => {
+                next();
+            }
         },
         { 
             path: '/login', 
@@ -22,19 +26,29 @@ export default new Router({
             path: '/register', 
             name: 'Register', 
             component: Register 
-        }
+        },
+        {
+            path: '*',
+            redirect: '/login'
+          }
     ]
 })
 
-// router.beforeEach((to, from, next) => {
-//     // redirect to login page if not logged in and trying to access a restricted page
-//     const publicPages = ['/login', '/register'];
-//     const authRequired = !publicPages.includes(to.path);
-//     const loggedIn = localStorage.getItem('user');
+router.beforeEach((to, from, next) => {
+    // redirect to login page if not logged in and trying to access a restricted page
+    const publicPages = ['/login', '/register'];
+    const authRequired = !publicPages.includes(to.path);
+    const userHasToken = localStorage.getItem('token');
   
-//     if (authRequired && !loggedIn) {
-//       return next('/login');
-//     }
-  
-//     next();
-//   })
+    if (authRequired && !userHasToken) {
+      return next('/login');
+    }
+
+    if (to.fullPath === '/login' && userHasToken || to.fullPath === '/register' && userHasToken) {
+        return next('/');
+    }
+
+    next();
+  })
+
+  export default router;

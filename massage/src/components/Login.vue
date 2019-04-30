@@ -1,9 +1,9 @@
 <template>
     <div>
         <h3>Login</h3>
-        <form @submit.prevent="sendData">
-            <input type="text" v-model="input.email" name="email" id="email" placeholder="Email">
-            <input type="password" v-model="input.password" name="password" id="password" placeholder="Password">
+        <form @submit.prevent="login">
+            <input required type="email" v-model="input.email" id="email" placeholder="Email">
+            <input required type="password" v-model="input.password" id="password" placeholder="Password">
             <input type="submit" name="submit" id="submit">
         </form>
         <p>Don't have an account? Register <router-link to="/register" class="auth-link">here</router-link></p>
@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import axios from "axios";
+// import axios from "axios";
 
 export default {
     name: "Login",
@@ -27,11 +27,10 @@ export default {
         return {
             user: "",
             input: {
-                    email: "",
-                    password: ""
-                },
-                token: "",
-            response: ""
+                email: "",
+                password: "",
+            },
+            token: "",
         }
     },
 
@@ -47,16 +46,14 @@ export default {
     // },
 
     methods: {
-        sendData() {
-            axios({ method: "POST", "url": "http://localhost:3000/api/login", "data": this.input, "headers": { "content-type": "application/json" } })
-            .then(result => {
-                localStorage.setItem('token', result.data.token);
-                localStorage.setItem('user', JSON.stringify(result.data.user));
-                this.$router.push('/')
-            }, error => {
-                /* eslint-disable */
-                console.error(error);
-            });
+        login() {
+            let email = this.input.email
+            let password = this.input.password
+            // let password = this.password 
+            this.$store.dispatch('login', { email, password })
+                .then(() => this.$router.push('/'))
+                // eslint-disable-next-line
+                .catch(err => console.log(err))
         }
     }
 }
