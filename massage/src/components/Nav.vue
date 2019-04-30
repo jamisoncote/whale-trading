@@ -2,9 +2,10 @@
 
   <div id="app">
     <ul>
-        <li><router-link to="/" class="nav-link">Home</router-link></li>
-        <li><router-link to="/login" class="nav-link">Login</router-link></li>
-        <li><router-link to="/register" class="nav-link">Register</router-link></li>
+        <li v-if="isLoggedIn"><router-link to="/" class="nav-link">Home</router-link></li>
+        <li v-if="!isLoggedIn"><router-link to="/login" class="nav-link">Login</router-link></li>
+        <li v-if="!isLoggedIn"><router-link to="/register" class="nav-link">Register</router-link></li>
+        <li v-if="isLoggedIn"><a  class="nav-link" @click="logout">Logout</a></li>
     </ul>
     <img alt="Vue logo" src="../assets/logo.png">
     <router-view></router-view>
@@ -13,7 +14,20 @@
 
 <script>
 export default {
-    name: "Nav"
+    name: "Nav",
+    computed : {
+        isLoggedIn : function(){ 
+            return this.$store.getters.isLoggedIn
+        }
+    },
+    methods: {
+        logout: function () {
+            this.$store.dispatch('logout')
+            .then(() => {
+                this.$router.push('/login')
+            })
+        }
+    },
 }
 </script>
 
